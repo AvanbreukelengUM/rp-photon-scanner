@@ -13,8 +13,8 @@ echo "Copying photon_counter.sv..."
 cp "$SCRIPT_DIR/rtl/photon_counter.sv" "$RTL_DIR/photon_counter.sv"
 
 # 2. Patch the top module to replace sys[7] stub
-echo "Patching red_pitaya_top_Z20.sv..."
-TOP_FILE="$RTL_DIR/red_pitaya_top_Z20.sv"
+echo "Patching red_pitaya_top.sv..."
+TOP_FILE="$RTL_DIR/red_pitaya_top.sv"
 
 if grep -q "photon_counter" "$TOP_FILE"; then
     echo "  Already patched, skipping."
@@ -39,4 +39,4 @@ echo ""
 echo "=== Done ==="
 echo "Next steps:"
 echo "  1. Open Vivado and load the project from $PROJECT_DIR/prj/v0.94/"
-echo "  2. Or build from command line: cd $PROJECT_DIR && make PRJ=v0.94 MODEL=Z20"
+echo "  2. Or build from command line: cd $PROJECT_DIR && make PRJ=v0.94 MODEL=Z10"
