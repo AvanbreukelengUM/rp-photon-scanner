@@ -79,19 +79,29 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
    ```
 
 ### Usage
+0. **Make Server starting file** on the RP:
+   ``` cat > /root/start_photon.sh <<'EOF'
+   #!/bin/sh
+   cd /root
+   exec python3 /root/photon_server.py --port 5555
+   EOF
+    ```
+Then make it executable:
 
-1. **Start the TCP server** on the Red Pitaya:
+ ```chmod +x /root/start_photon.sh ```
+
+0. **Start the TCP server** on the Red Pitaya:
    ```bash
    ssh root@<RP_IP> '/root/start_photon.sh'
    ```
 
-2. **Run the live monitor** on your PC:
+1. **Run the live monitor** on your PC:
    ```bash
    cd client
    uv run python3 live_monitor.py --threshold 28 --histogram
    ```
 
-3. **Or use the Python client** programmatically:
+2. **Or use the Python client** programmatically:
    ```python
    from photon_client import PhotonCounter
 
