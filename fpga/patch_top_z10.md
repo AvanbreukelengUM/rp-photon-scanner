@@ -1,6 +1,6 @@
 # How to patch red_pitaya_top_Z20.sv
 
-In `RedPitaya-FPGA/prj/v0.94/rtl/red_pitaya_top_Z20.sv`, make these changes:
+In `RedPitaya-FPGA/prj/v0.94/rtl/red_pitaya_top.sv`, make these changes:
 
 ## 1. Replace the sys[7] stub with photon_counter
 
