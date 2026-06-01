@@ -1,4 +1,4 @@
-# How to patch red_pitaya_top_Z10.sv
+# How to patch red_pitaya_top.sv
 
 In `RedPitaya-FPGA/prj/v0.94/rtl/red_pitaya_top.sv`, make these changes:
 
