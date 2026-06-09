@@ -1,4 +1,4 @@
-# rp-photon-counter
+# rp-photon-counter and scanner
 
 FPGA-based photon counter for the [Red Pitaya STEMlab 125-14](https://redpitaya.com/stemlab-125-14/). Real-time pulse counting at 125 MSPS using the onboard FPGA, with a TCP server and Python client for remote control and live monitoring.
 
