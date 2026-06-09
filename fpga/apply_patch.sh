@@ -1,5 +1,5 @@
 #!/bin/bash
-# Apply the photon_counter module to the Red Pitaya FPGA project
+# Apply the photon_scanner module to the Red Pitaya FPGA project
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -8,22 +8,23 @@ RTL_DIR="$PROJECT_DIR/prj/v0.94/rtl"
 
 echo "=== Patching Red Pitaya FPGA project ==="
 
-# 1. Copy photon_counter module
-echo "Copying photon_counter.sv..."
-cp "$SCRIPT_DIR/rtl/photon_counter.sv" "$RTL_DIR/photon_counter.sv"
+# 1. Copy photon_scanner module
+echo "Copying photon_scanner.sv..."
+cp "$SCRIPT_DIR/rtl/photon_scanner.sv" "$RTL_DIR/photon_scanner.sv"
 
 # 2. Patch the top module to replace sys[7] stub
 echo "Patching red_pitaya_top.sv..."
 TOP_FILE="$RTL_DIR/red_pitaya_top.sv"
 
-if grep -q "photon_counter" "$TOP_FILE"; then
+if grep -q "photon_scanner" "$TOP_FILE"; then
     echo "  Already patched, skipping."
 else
-    sed -i 's|sys_bus_stub sys_bus_stub_7 (sys\[7\]);|// Photon counter on sys[7] (base addr 0x40700000)\
-    photon_counter i_photon_counter (\
+    sed -i 's|sys_bus_stub sys_bus_stub_7 (sys\[7\]);|// Photon scanner on sys[7] (base addr 0x40700000)\
+    photon_scanner i_photon_scanner (\
       .clk_i      (adc_clk       ),\
       .rstn_i     (adc_rstn      ),\
       .adc_dat_i  (adc_dat[0]    ),  // ADC channel 1\
+      .trig_in    (trig_asg_out  ),  // Connect to ASG trigger\
       .sys_addr   (sys[7].addr   ),\
       .sys_wdata  (sys[7].wdata  ),\
       .sys_wen    (sys[7].wen    ),\
