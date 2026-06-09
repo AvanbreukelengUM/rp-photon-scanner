@@ -41,7 +41,7 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
    git clone --depth 1 https://github.com/RedPitaya/RedPitaya-FPGA.git
    ```
 
-2. **Patch the FPGA project** to add the photon counter module:
+2. **Patch the FPGA project** to add the photon scanner module:
    ```bash
    bash fpga/apply_patch.sh
    ```
@@ -63,10 +63,10 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
 
 5. **Deploy to Red Pitaya**:
    ```bash
-   scp red_pitaya.bit.bin root@<RP_IP>:/root/photon_counter.bit.bin
+   scp red_pitaya.bit.bin root@<RP_IP>:/root/photon_scanner.bit.bin
    ssh root@<RP_IP>
    mount -o rw,remount /opt/redpitaya
-   cp /root/photon_counter.bit.bin /opt/redpitaya/fpga/z10_125_pro_v2/v0.94/fpga.bit.bin
+   cp /root/photon_scanner.bit.bin /opt/redpitaya/fpga/z10_125_pro_v2/v0.94/fpga.bit.bin
    sync
    mount -o ro,remount /opt/redpitaya
    reboot
