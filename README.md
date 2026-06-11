@@ -63,8 +63,8 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
 
 5. **Deploy to Red Pitaya**:
    ```bash
-   scp red_pitaya.bit.bin root@<RP_IP>:/root/photon_scanner.bit.bin
-   ssh root@<RP_IP>
+   scp red_pitaya.bit.bin root@169.254.121.34:/root/photon_scanner.bit.bin
+   ssh root@169.254.121.34
    mount -o rw,remount /opt/redpitaya
    cp /root/photon_scanner.bit.bin /opt/redpitaya/fpga/z10_125_pro_v2/v0.94/fpga.bit.bin
    sync
