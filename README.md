@@ -93,7 +93,7 @@ Then make it executable:
 
 0. **Start the TCP server** on the Red Pitaya:
    ```bash
-   ssh root@<RP_IP> '/root/start_photon.sh'
+   ssh root@<RP_IP> '/root/start_photon_scanner.sh'
    ```
 
 1. **Run the live monitor** on your PC:
