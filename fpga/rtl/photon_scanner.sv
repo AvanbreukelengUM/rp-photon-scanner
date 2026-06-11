@@ -69,10 +69,10 @@ logic [31:0] count_rate;
 logic [15:0] peak_last;
 logic        overflow;
 
-parameter MAX_TRIG_GATES = 1024;  // Max number of gates (adjust as needed)
+parameter MAX_TRIG_GATES = 512;  // Max number of gates (adjust as needed)
 logic [31:0] counted_gates [0:MAX_TRIG_GATES-1]; // Counts per gate
-logic [9:0]  reg_trig_read_index;    // Index for reading back counts
-logic [9:0]  current_trig_gate;      // Current gate index (0 to N-1)
+logic [8:0]  reg_trig_read_index;    // Index for reading back counts
+logic [8:0]  current_trig_gate;      // Current gate index (0 to N-1)
 logic        trig_active;            // Triggered counting is active
 logic        trig_done;              // All gates counted
 
@@ -108,7 +108,7 @@ always_ff @(posedge clk_i) begin
     reg_trig_total_gates <= 32'd1;       // Default: 1 gate
     reg_trig_enable      <= 1'b0;        // Disabled by default
     reg_trig_arm         <= 1'b0;        // Disarmed by default
-    reg_trig_read_index  <= 9'd0;        // Start reading from index 0
+    reg_trig_read_index  <= 8'd0;        // Start reading from index 0
   end else begin
     // auto-clear reset bit
     if (reg_reset)
@@ -125,7 +125,7 @@ always_ff @(posedge clk_i) begin
         20'h14: reg_gate_period <= sys_wdata;
         20'h24: reg_hist_shift  <= sys_wdata[3:0];
         
-        20'h28: reg_trig_total_gates <= sys_wdata[8:0]; // 9-bit max (256)
+        20'h28: reg_trig_total_gates <= sys_wdata[8:0]; // 8-bit max (512)
         20'h2C: reg_trig_enable <= sys_wdata[0];
         20'h30: reg_trig_arm    <= sys_wdata[0];
         20'h34: reg_trig_read_index <= sys_wdata[8:0];
@@ -201,7 +201,7 @@ always_ff @(posedge clk_i) begin
     trig_armed <= 1'b0;
     trig_active <= 1'b0;
     trig_done <= 1'b0;
-    current_trig_gate <= 9'd0;
+    current_trig_gate <= 8'd0;
   end else begin
     trig_in_prev <= trig_in;
     // Arm the trigger if requested
@@ -298,7 +298,7 @@ always_ff @(posedge clk_i) begin
   if (~rstn_i || reg_reset) begin
     trig_active <= 1'b0;
     trig_done <= 1'b0;
-    current_trig_gate <= 9'd0;
+    current_trig_gate <= 8'd0;
     for (int i = 0; i < MAX_TRIG_GATES; i++)
       counted_gates[i] <= 32'd0;
   end else if (reg_trig_enable && trig_armed) begin
@@ -306,7 +306,7 @@ always_ff @(posedge clk_i) begin
     if (trig_in_rising_edge) begin
       trig_active <= 1'b1;
       trig_done <= 1'b0;
-      current_trig_gate <= 9'd0;
+      current_trig_gate <= 8'd0;
       for (int i = 0; i < MAX_TRIG_GATES; i++)
         counted_gates[i] <= 32'd0;
     end
