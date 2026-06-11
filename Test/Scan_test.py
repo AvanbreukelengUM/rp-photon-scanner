@@ -8,3 +8,4 @@ while True:
     print(pc.read_stream_trig())
     # pc.set_trig_arm(False)
     # pc.set_trig_enable(False)
+print("error")
