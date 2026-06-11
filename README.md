@@ -89,7 +89,7 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
     ```
 Then make it executable:
 
- ```chmod +x /root/start_photon.sh ```
+ ```chmod +x /root/start_photon_scanner.sh ```
 
 0. **Start the TCP server** on the Red Pitaya:
    ```bash
