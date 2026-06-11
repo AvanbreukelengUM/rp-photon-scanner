@@ -7,7 +7,7 @@ and provides a clean Python API for photon counting.
 Usage:
     from photon_client import PhotonCounter
 
-    pc = PhotonCounter("169.254.32.2")
+    pc = PhotonCounter("169.254.121.34")
     pc.set_threshold(200)
     pc.set_deadtime(16)
     pc.enable()
@@ -41,7 +41,7 @@ class TrigStatus:
 class PhotonCounter:
     """Client for the Red Pitaya photon counter FPGA module."""
 
-    def __init__(self, host: str, port: int = 5557, timeout: float = 5.0):
+    def __init__(self, host: str, port: int = 5555, timeout: float = 5.0):
         self.host = host
         self.port = port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
