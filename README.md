@@ -81,10 +81,10 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
 ### Usage
 0. **Make Server starting file** on the RP:
    ```
-   cat > /root/start_photon.sh <<'EOF'
+   cat > /root/start_photon_scanner.sh <<'EOF'
    #!/bin/sh
    cd /root
-   exec python3 /root/photon_server.py --port 5555
+   exec python3 /root/photon_server_scanner.py --port 5555
    EOF
     ```
 Then make it executable:
