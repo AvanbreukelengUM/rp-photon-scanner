@@ -38,16 +38,17 @@ class TrigStatus:
     trig_active: bool
     trig_done: bool
 
-class PhotonCounter:
+class PhotonScanner:
     """Client for the Red Pitaya photon counter FPGA module."""
 
-    def __init__(self, host: str, port: int = 5555, timeout: float = 5.0):
+    def __init__(self, host: str = '169.254.121.34', port: int = 5555, timeout: float = 5.0, name="Redpitaya_PhotonScanner"):
         self.host = host
         self.port = port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.settimeout(timeout)
         self.sock.connect((host, port))
         self._buf = ""
+        self.name = name
 
     def _send(self, cmd: str) -> str:
         """Send command and return response line."""
