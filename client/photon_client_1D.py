@@ -7,25 +7,18 @@ and provides a clean Python API for photon counting.
 Usage:
     from photon_client import PhotonCounter
 
-    pc = PhotonCounter("169.254.121.34")
+    pc = PhotonCounter("169.254.32.2")
     pc.set_threshold(200)
     pc.set_deadtime(16)
     pc.enable()
     print(pc.get_rate())
-
-    # Triggered gated counting example:
-    pc.set_trig_enable(True)
-    pc.set_trig_total_gates(10)
-    pc.set_trig_arm(True)
-    print(pc.get_trig_status())
-    print(pc.get_trig_counts())
     pc.close()
 """
 
 import socket
 import time
 from dataclasses import dataclass
-from typing import Optional, List, Tuple
+
 
 @dataclass
 class CountRate:
@@ -33,22 +26,17 @@ class CountRate:
     cps: float            # counts per second
     total_count: int = 0  # cumulative count
 
-@dataclass
-class TrigStatus:
-    trig_active: bool
-    trig_done: bool
 
-class PhotonScanner:
+class PhotonCounter:
     """Client for the Red Pitaya photon counter FPGA module."""
 
-    def __init__(self, host: str = '169.254.121.34', port: int = 5555, timeout: float = 5.0, name="Redpitaya_PhotonScanner"):
+    def __init__(self, host: str, port: int = 5556, timeout: float = 5.0):
         self.host = host
         self.port = port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.settimeout(timeout)
         self.sock.connect((host, port))
         self._buf = ""
-        self.name = name
 
     def _send(self, cmd: str) -> str:
         """Send command and return response line."""
@@ -134,7 +122,7 @@ class PhotonScanner:
             result[k] = int(v)
         return result
 
-    def get_histogram(self) -> List[int]:
+    def get_histogram(self) -> list[int]:
         """Get 256-bin pulse height histogram."""
         resp = self._send("GET_HISTOGRAM")
         return [int(x) for x in resp.split()]
@@ -147,18 +135,11 @@ class PhotonScanner:
         self._send(f"STREAM {interval_ms}")
 
     def start_stream1D(self, interval_ms: int = 500):
-        """Start streaming count data at given interval, and buffered.
+        """Start streaming count data at given interval, and buffered
 
         After calling this, use read_stream1D() to get data lines.
         """
         self._send(f"STREAM1D {interval_ms}")
-
-    def start_stream_trig(self, interval_ms: int = 500):
-        """Start streaming triggered gated counts at given interval.
-
-        After calling this, use read_stream_trig() to get data lines.
-        """
-        self._send(f"STREAM_TRIG {interval_ms}")
 
     def stop_stream(self):
         """Stop streaming."""
@@ -175,7 +156,7 @@ class PhotonScanner:
         self.sock.settimeout(5.0)
         self._buf = ""
 
-    def read_stream(self) -> Optional[Tuple[float, int, int, float]]:
+    def read_stream(self) -> tuple[float, int, int, float] | None:
         """Read one stream data point.
 
         Returns (timestamp, total_count, gate_count, cps) or None.
@@ -195,25 +176,28 @@ class PhotonScanner:
             return (float(parts[1]), int(parts[2]), int(parts[3]), float(parts[4]))
         return None
 
-    def read_stream1D(self) -> Optional[List[Tuple[float, int, int, float]]]:
+    # ToDo finish this code:
+    def read_stream1D(self) -> list[tuple[float, int, int, float]] | None:
         """Read one stream data point.
 
-        Returns a list of (timestamp, total_count, gate_count, cps) tuples or None.
+        Returns (timestamp, total_count, gate_count, cps) or None.
         """
         while "\n" not in self._buf:
             try:
                 data = self.sock.recv(4096).decode()
                 if not data:
+                    print("no data")
                     return None
                 self._buf += data
             except socket.timeout:
+                print("timeout")
                 return None
 
         line, self._buf = self._buf.split("\n", 1)
         parts = line.strip().split()
 
-        if len(parts) < 2 or parts[0] != "STREAM1D":
-            return None
+        # if len(parts) < 2 or parts[0] != "STREAM1D":
+        #     return None
 
         # Parse each tuple: "timestamp,count,rate,cps"
         result = []
@@ -225,80 +209,9 @@ class PhotonScanner:
                 continue  # Skip malformed data
         return result if result else None
 
-    def read_stream_trig(self) -> Optional[Tuple[float, List[int]]]:
-        """Read one stream data point for triggered gated counts.
-
-        Returns (timestamp, [count0, count1, ...]) or None.
-        """
-        while "\n" not in self._buf:
-            try:
-                data = self.sock.recv(4096).decode()
-                if not data:
-                    return None
-                self._buf += data
-            except socket.timeout:
-                return None
-
-        line, self._buf = self._buf.split("\n", 1)
-        parts = line.strip().split()
-
-        if len(parts) < 2 or parts[0] != "STREAM1D":
-            return None
-
-        # Parse timestamp and counts
-        try:
-            timestamp = float(parts[1])
-            counts = [int(x) for x in parts[2:]]
-            return (timestamp, counts)
-        except ValueError:
-            return None
-
-    # --- New methods for triggered gated counting ---
-    def set_trig_enable(self, enable: bool) -> None:
-        """Enable or disable triggered mode."""
-        self._send(f"SET_TRIG_ENABLE {int(enable)}")
-
-    def set_trig_arm(self, arm: bool) -> None:
-        """Arm or disarm the trigger."""
-        self._send(f"SET_TRIG_ARM {int(arm)}")
-
-    def set_trig_total_gates(self, num_gates: int) -> None:
-        """Set the number of gates for triggered counting (1-1024)."""
-        if num_gates < 1 or num_gates > 1024:
-            raise ValueError("num_gates must be between 1 and 1024")
-        self._send(f"SET_TRIG_TOTAL_GATES {num_gates}")
-
-    def set_pixels(self, num_gates: int):
-        self.set_trig_total_gates(num_gates)
-
-    def get_trig_status(self) -> TrigStatus:
-        """Get triggered mode status (trig_active, trig_done)."""
-        resp = self._send("GET_TRIG_STATUS")
-        parts = resp.split()
-        return TrigStatus(
-            trig_active=bool(int(parts[0].split("=")[1])),
-            trig_done=bool(int(parts[1].split("=")[1]))
-        )
-
-    def get_trig_counts(self) -> List[int]:
-        """Get counts for all gates as a list."""
-        resp = self._send("GET_TRIG_COUNTS")
-        return [int(x) for x in resp.split()]
-
-    def get_trig_count(self, index: int) -> int:
-        """Get count for a specific gate."""
-        if index < 0 or index >= 1024:
-            raise ValueError("index must be between 0 and 1023")
-        return int(self._send(f"GET_TRIG_COUNT {index}"))
-
-    def get_trig_config(self) -> dict:
-        """Get current triggered mode configuration."""
-        resp = self._send("GET_TRIG_CONFIG")
-        result = {}
-        for pair in resp.split():
-            k, v = pair.split("=")
-            result[k] = int(v)
-        return result
+        # if len(parts) >= 5 and parts[0] == "STREAM1D":
+        #     return (float(parts[1]), int(parts[2]), int(parts[3]), float(parts[4]))
+        # return None
 
     def close(self):
         """Close connection."""
