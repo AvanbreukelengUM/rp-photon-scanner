@@ -285,11 +285,22 @@ class PhotonScanner:
         resp = self._send("GET_TRIG_COUNTS")
         return [int(x) for x in resp.split()]
 
+    def get_trig_rates(self) -> List[int]:
+        """Get counts for all gates as a list."""
+        resp = self._send("GET_TRIG_RATES")
+        return [int(x) for x in resp.split()]
+
     def get_trig_count(self, index: int) -> int:
         """Get count for a specific gate."""
         if index < 0 or index >= 1024:
             raise ValueError("index must be between 0 and 1023")
         return int(self._send(f"GET_TRIG_COUNT {index}"))
+
+    def get_trig_rate(self, index: int) -> int:
+        """Get count for a specific gate."""
+        if index < 0 or index >= 1024:
+            raise ValueError("index must be between 0 and 1023")
+        return int(self._send(f"GET_TRIG_RATE {index}"))
 
     def get_trig_config(self) -> dict:
         """Get current triggered mode configuration."""

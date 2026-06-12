@@ -1,4 +1,4 @@
-from client.photon_client_scanner import PhotonScanner
+from urllib3.util import wait
 
 from client.photon_client_scanner import PhotonScanner
 
@@ -7,8 +7,8 @@ pc.disable()
 pc.reset()
 pc.stop_stream()
 pc.enable()
-pc.set_trig_arm(True)
-pc.set_trig_enable(True)
+pc.set_trig_arm(False)
+pc.set_trig_enable(False)
 
 
 # pc.start_stream_trig()
@@ -21,17 +21,9 @@ print(pc.get_status())
 print(pc.get_trig_config())
 print(pc.get_trig_status())
 import time
-time.sleep(20)
-print(pc.get_trig_config())
-print(pc.get_trig_status())
-time.sleep(20)
+time.sleep(5)
 while True:
-    ps = pc.get_trig_counts()
-    # print(ps[0])
-    for p in ps:
-        if p > 0:
-            print(p)
+    ps = pc.get_rate()
 
-    # pc.set_trig_arm(False)
-    # pc.set_trig_enable(False)
-print("errorss")
+    print(ps)
+
