@@ -43,7 +43,7 @@ REG_TRIG_READ_INDEX  = 0x34  # Index for reading gate counts (9-bit)
 REG_TRIG_STATUS      = 0x38  # [0]=trig_active, [1]=trig_done
 REG_TRIG_COUNTS_BASE = 0x500  # Base address for gate counts (256 x 4 bytes)
 
-MAX_TRIG_GATES = 256  # Maximum number of gates
+MAX_TRIG_GATES = 512 # Maximum number of gates
 
 class FPGARegs:
     """Memory-mapped access to FPGA registers via /dev/mem."""
@@ -100,15 +100,18 @@ class PhotonServer:
         try:
             if parts[0] == "ENABLE":
                 self.regs.write32(REG_CTRL, 0x01)
+                print("enabled")
                 return "OK"
 
             elif parts[0] == "DISABLE":
                 self.regs.write32(REG_CTRL, 0x00)
+                print("disabled")
                 return "OK"
 
             elif parts[0] == "RESET":
                 ctrl = self.regs.read32(REG_CTRL)
                 self.regs.write32(REG_CTRL, ctrl | 0x02)
+                print("reset")
                 return "OK"
 
             elif parts[0] == "SET_THRESHOLD":
@@ -153,6 +156,7 @@ class PhotonServer:
                 ovf = (status >> 1) & 1
                 count = self.regs.read32(REG_COUNT)
                 rate = self.regs.read32(REG_COUNT_RATE)
+                print(f"enabled={enabled} overflow={ovf} count={count} rate={rate}")
                 return f"enabled={enabled} overflow={ovf} count={count} rate={rate}"
 
             elif parts[0] == "GET_HISTOGRAM":
@@ -173,6 +177,9 @@ class PhotonServer:
                 gate = self.regs.read32(REG_GATE_PERIOD)
                 ctrl = self.regs.read32(REG_CTRL)
                 hist_shift = self.regs.read32(REG_HIST_SHIFT) & 0xF
+                print(f"enabled={ctrl & 1} threshold={threshold} "
+                        f"deadtime={deadtime} gate_period={gate} "
+                        f"hist_shift={hist_shift}")
                 return (f"enabled={ctrl & 1} threshold={threshold} "
                         f"deadtime={deadtime} gate_period={gate} "
                         f"hist_shift={hist_shift}")
@@ -181,11 +188,13 @@ class PhotonServer:
             elif parts[0] == "SET_TRIG_ENABLE":
                 val = int(parts[1])
                 self.regs.write32(REG_TRIG_ENABLE, val & 0x1)
+                print(f"OK trig_enable={val}")
                 return f"OK trig_enable={val}"
 
             elif parts[0] == "SET_TRIG_ARM":
                 val = int(parts[1])
                 self.regs.write32(REG_TRIG_ARM, val & 0x1)
+                print(f"OK trig_arm={val}")
                 return f"OK trig_arm={val}"
 
             elif parts[0] == "SET_TRIG_TOTAL_GATES":
@@ -193,12 +202,15 @@ class PhotonServer:
                 if val < 0 or val > MAX_TRIG_GATES:
                     return f"ERR: trig_total_gates must be between 0 and {MAX_TRIG_GATES}"
                 self.regs.write32(REG_TRIG_TOTAL_GATES, val & 0x3FF)  # 10-bit max
+                print(f"OK trig_total_gates={val}")
                 return f"OK trig_total_gates={val}"
 
             elif parts[0] == "GET_TRIG_STATUS":
                 status = self.regs.read32(REG_TRIG_STATUS)
-                trig_active = status & 1
-                trig_done = (status >> 1) & 1
+                print("trig_status",status)
+                trig_done = status & 1
+                trig_active = (status >> 1) & 1
+                print(f"trig_active={trig_active} trig_done={trig_done}")
                 return f"trig_active={trig_active} trig_done={trig_done}"
 
             elif parts[0] == "GET_TRIG_COUNTS":
@@ -207,19 +219,50 @@ class PhotonServer:
                 for i in range(num_gates):
                     val = self.regs.read32(REG_TRIG_COUNTS_BASE + i * 4)
                     counts.append(str(val))
+                print(" ".join(counts))
                 return " ".join(counts)
+
+            elif parts[0] == "GET_TRIG_RATES":
+                num_gates = self.regs.read32(REG_TRIG_TOTAL_GATES) & 0x1FF
+                rates = []
+                gate = self.regs.read32(REG_GATE_PERIOD)
+                for i in range(num_gates):
+                    counts = self.regs.read32(REG_TRIG_COUNTS_BASE + i * 4)
+                    if gate > 0:
+                        rates.append(str(counts * 125_000_000.0 / gate))
+                    else:
+                        rates.append("")
+                print(" ".join(rates))
+                return " ".join(rates)
 
             elif parts[0] == "GET_TRIG_COUNT":
                 index = int(parts[1]) if len(parts) > 1 else 0
                 if index < 0 or index >= MAX_TRIG_GATES:
                     return f"ERR: index must be between 0 and {MAX_TRIG_GATES-1}"
                 val = self.regs.read32(REG_TRIG_COUNTS_BASE + index * 4)
+                print( f"TRIG_COUNT={val}")
                 return f"{val}"
+
+            elif parts[0] == "GET_TRIG_RATE":
+                index = int(parts[1]) if len(parts) > 1 else 0
+                gate = self.regs.read32(REG_GATE_PERIOD)
+                if index < 0 or index >= MAX_TRIG_GATES:
+                    return f"ERR: index must be between 0 and {MAX_TRIG_GATES-1}"
+                counts = self.regs.read32(REG_TRIG_COUNTS_BASE + index * 4)
+                if gate > 0:
+                    val = counts * 125_000_000.0 / gate
+                else:
+                    val = 0
+                print( f"TRIG_RATE={val}")
+                return f"{val}"
+
 
             elif parts[0] == "GET_TRIG_CONFIG":
                 trig_enable = self.regs.read32(REG_TRIG_ENABLE) & 1
                 trig_arm = self.regs.read32(REG_TRIG_ARM) & 1
                 trig_total_gates = self.regs.read32(REG_TRIG_TOTAL_GATES) & 0x1FF
+                print(f"trig_enable={trig_enable} trig_arm={trig_arm} "
+                        f"trig_total_gates={trig_total_gates}")
                 return (f"trig_enable={trig_enable} trig_arm={trig_arm} "
                         f"trig_total_gates={trig_total_gates}")
 
@@ -228,14 +271,25 @@ class PhotonServer:
                 if len(parts) > 1:
                     self.stream_interval = int(parts[1]) / 1000.0
                 self.streaming = True
+                print("OK streaming_trig")
                 return "OK streaming_trig"
 
             elif parts[0] == "STOP":
                 self.streaming = False
                 self.streaming1D = False
+                print("OK stopped")
                 return "OK stopped"
 
             elif parts[0] == "HELP":
+                print(
+                    "Commands: ENABLE, DISABLE, RESET, "
+                    "SET_THRESHOLD <val>, SET_DEADTIME <cycles>, SET_GATE <cycles>, "
+                    "GET_COUNT, GET_RATE, GET_ADC, GET_PEAK, GET_STATUS, "
+                    "GET_HISTOGRAM, GET_CONFIG, "
+                    "SET_TRIG_ENABLE <0/1>, SET_TRIG_ARM <0/1>, SET_TRIG_TOTAL_GATES <N>, "
+                    "GET_TRIG_STATUS, GET_TRIG_COUNTS, GET_TRIG_COUNT <index>, GET_TRIG_CONFIG, "
+                    "STREAM_TRIG [interval_ms], STOP, HELP"
+                )
                 return (
                     "Commands: ENABLE, DISABLE, RESET, "
                     "SET_THRESHOLD <val>, SET_DEADTIME <cycles>, SET_GATE <cycles>, "
