@@ -10,15 +10,13 @@ Usage:
     pc = PhotonCounter("169.254.121.34")
     pc.set_threshold(200)
     pc.set_deadtime(16)
+    pc.set_trig_total_gates(10)
     pc.enable()
-    print(pc.get_rate())
 
     # Triggered gated counting example:
-    pc.set_trig_enable(True)
-    pc.set_trig_total_gates(10)
-    pc.set_trig_arm(True)
+    pc.soft_trig()
     print(pc.get_trig_status())
-    print(pc.get_trig_counts())
+    print(pc.get_trig_rates())
     pc.close()
 """
 
@@ -27,11 +25,11 @@ import time
 from dataclasses import dataclass
 from typing import Optional, List, Tuple
 
-@dataclass
-class CountRate:
-    raw_counts: int       # counts in last gate period
-    cps: float            # counts per second
-    total_count: int = 0  # cumulative count
+# @dataclass
+# class CountRate:
+#     raw_counts: int       # counts in last gate period
+#     cps: float            # counts per second
+#     total_count: int = 0  # cumulative count
 
 @dataclass
 class TrigStatus:
@@ -98,24 +96,6 @@ class PhotonScanner:
         """
         self._send(f"SET_GATE {cycles}")
 
-    def get_count(self) -> int:
-        """Get cumulative pulse count since last reset."""
-        return int(self._send("GET_COUNT"))
-
-    def get_rate(self) -> CountRate:
-        """Get count rate (counts in last gate period + CPS)."""
-        resp = self._send("GET_RATE")
-        parts = resp.split()
-        return CountRate(raw_counts=int(parts[0]), cps=float(parts[1]))
-
-    def get_adc_raw(self) -> int:
-        """Get current ADC sample value (signed, for threshold tuning)."""
-        return int(self._send("GET_ADC"))
-
-    def get_peak(self) -> int:
-        """Get peak ADC value from most recent pulse."""
-        return int(self._send("GET_PEAK"))
-
     def get_status(self) -> dict:
         """Get full status dictionary."""
         resp = self._send("GET_STATUS")
@@ -134,134 +114,7 @@ class PhotonScanner:
             result[k] = int(v)
         return result
 
-    def get_histogram(self) -> List[int]:
-        """Get 256-bin pulse height histogram."""
-        resp = self._send("GET_HISTOGRAM")
-        return [int(x) for x in resp.split()]
-
-    def start_stream(self, interval_ms: int = 500):
-        """Start streaming count data at given interval.
-
-        After calling this, use read_stream() to get data lines.
-        """
-        self._send(f"STREAM {interval_ms}")
-
-    def start_stream1D(self, interval_ms: int = 500):
-        """Start streaming count data at given interval, and buffered.
-
-        After calling this, use read_stream1D() to get data lines.
-        """
-        self._send(f"STREAM1D {interval_ms}")
-
-    def start_stream_trig(self, interval_ms: int = 500):
-        """Start streaming triggered gated counts at given interval.
-
-        After calling this, use read_stream_trig() to get data lines.
-        """
-        self._send(f"STREAM_TRIG {interval_ms}")
-
-    def stop_stream(self):
-        """Stop streaming."""
-        self.sock.sendall(b"STOP\n")
-        # Drain any pending stream data
-        self.sock.settimeout(0.2)
-        try:
-            while True:
-                data = self.sock.recv(4096)
-                if not data:
-                    break
-        except socket.timeout:
-            pass
-        self.sock.settimeout(5.0)
-        self._buf = ""
-
-    def read_stream(self) -> Optional[Tuple[float, int, int, float]]:
-        """Read one stream data point.
-
-        Returns (timestamp, total_count, gate_count, cps) or None.
-        """
-        while "\n" not in self._buf:
-            try:
-                data = self.sock.recv(4096).decode()
-                if not data:
-                    return None
-                self._buf += data
-            except socket.timeout:
-                return None
-
-        line, self._buf = self._buf.split("\n", 1)
-        parts = line.strip().split()
-        if len(parts) >= 5 and parts[0] == "STREAM":
-            return (float(parts[1]), int(parts[2]), int(parts[3]), float(parts[4]))
-        return None
-
-    def read_stream1D(self) -> Optional[List[Tuple[float, int, int, float]]]:
-        """Read one stream data point.
-
-        Returns a list of (timestamp, total_count, gate_count, cps) tuples or None.
-        """
-        while "\n" not in self._buf:
-            try:
-                data = self.sock.recv(4096).decode()
-                if not data:
-                    return None
-                self._buf += data
-            except socket.timeout:
-                return None
-
-        line, self._buf = self._buf.split("\n", 1)
-        parts = line.strip().split()
-
-        if len(parts) < 2 or parts[0] != "STREAM1D":
-            return None
-
-        # Parse each tuple: "timestamp,count,rate,cps"
-        result = []
-        for data_str in parts[1:]:
-            try:
-                t, c, r, cps = data_str.split(',')
-                result.append((float(t), int(c), int(r), float(cps)))
-            except ValueError:
-                continue  # Skip malformed data
-        return result if result else None
-
-    def read_stream_trig(self) -> Optional[Tuple[float, List[int]]]:
-        """Read one stream data point for triggered gated counts.
-
-        Returns (timestamp, [count0, count1, ...]) or None.
-        """
-        while "\n" not in self._buf:
-            try:
-                data = self.sock.recv(4096).decode()
-                if not data:
-                    return None
-                self._buf += data
-            except socket.timeout:
-                return None
-
-        line, self._buf = self._buf.split("\n", 1)
-        parts = line.strip().split()
-
-        if len(parts) < 2 or parts[0] != "STREAM1D":
-            return None
-
-        # Parse timestamp and counts
-        try:
-            timestamp = float(parts[1])
-            counts = [int(x) for x in parts[2:]]
-            return (timestamp, counts)
-        except ValueError:
-            return None
-
     # --- New methods for triggered gated counting ---
-    def set_trig_enable(self, enable: bool) -> None:
-        """Enable or disable triggered mode."""
-        self._send(f"SET_TRIG_ENABLE {int(enable)}")
-
-    def set_trig_arm(self, arm: bool) -> None:
-        """Arm or disarm the trigger."""
-        self._send(f"SET_TRIG_ARM {int(arm)}")
-
     def trig_soft(self, trigger: bool) -> None:
         """Software trigger the counting"""
         self._send(f"TRIG_SOFT {int(trigger)}")
