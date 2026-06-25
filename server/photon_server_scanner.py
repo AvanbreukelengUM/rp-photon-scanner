@@ -36,7 +36,7 @@ REG_TRIG_STATUS      = 0x38  # [0]=trig_active, [1]=trig_done
 REG_SOFT_TRIG        = 0x40  # R/W  Allows to generate a trig_rising edge and force the counting of photons (software trigger)
 REG_TRIG_COUNTS_BASE = 0x500  # Base address for gate counts (256 x 4 bytes)
 
-MAX_TRIG_GATES = 128 # Maximum number of gates
+MAX_TRIG_GATES = 256 # Maximum number of gates
 
 class FPGARegs:
     """Memory-mapped access to FPGA registers via /dev/mem."""
@@ -105,16 +105,19 @@ class PhotonServer:
             elif parts[0] == "SET_THRESHOLD":
                 val = int(parts[1])
                 self.regs.write32(REG_THRESHOLD, val & 0xFFFF)
+                print(f"OK threshold={val}")
                 return f"OK threshold={val}"
 
             elif parts[0] == "SET_DEADTIME":
                 val = int(parts[1])
                 self.regs.write32(REG_DEADTIME, val & 0xFFFF)
+                print(f"OK deadtime={val}")
                 return f"OK deadtime={val}"
 
             elif parts[0] == "SET_GATE":
                 val = int(parts[1])
                 self.regs.write32(REG_GATE_PERIOD, val)
+                print(f"OK gate_period={val}")
                 return f"OK gate_period={val}"
 
             elif parts[0] == "GET_CONFIG":
@@ -133,14 +136,16 @@ class PhotonServer:
             elif parts[0] == "SET_TRIG_TOTAL_GATES":
                 val = int(parts[1])
                 if val < 0 or val > MAX_TRIG_GATES:
-                    return f"ERR: trig_total_gates must be between 0 and {MAX_TRIG_GATES}"
+                    print(f"ERR: trig_total_gates must be between 0 and {MAX_TRIG_GATES}")
+                    self.regs.write32(REG_TRIG_TOTAL_GATES, MAX_TRIG_GATES & 0x3FF)  # 10-bit max
+                    return f"ERR: trig_total_gates must be between 0 and {MAX_TRIG_GATES}. Maximum set"
                 self.regs.write32(REG_TRIG_TOTAL_GATES, val & 0x3FF)  # 10-bit max
-                # print(f"OK trig_total_gates={val}")
+                print(f"OK trig_total_gates={val}")
                 return f"OK trig_total_gates={val}"
 
             elif parts[0] == "GET_TRIG_STATUS":
                 status = self.regs.read32(REG_TRIG_STATUS)
-                print("trig_status",status)
+                # print("trig_status",status)
                 trig_done = status & 1
                 trig_active = (status >> 1) & 1
                 # print(f"trig_active={trig_active} trig_done={trig_done}")
@@ -149,7 +154,7 @@ class PhotonServer:
             elif parts[0] == "GET_TRIG_COUNTS":
                 num_gates = self.regs.read32(REG_TRIG_TOTAL_GATES) & 0x1FF
                 counts = []
-                print("number of gates: ", num_gates)
+                # print("number of gates: ", num_gates)
                 for i in range(num_gates):
                     val = self.regs.read32(REG_TRIG_COUNTS_BASE + i * 4)
                     # print("number of counts: ", val,"for gate: ", i, "at register: ", REG_TRIG_COUNTS_BASE + i * 4)
@@ -159,7 +164,7 @@ class PhotonServer:
 
             elif parts[0] == "GET_TRIG_RATES":
                 num_gates = self.regs.read32(REG_TRIG_TOTAL_GATES) & 0x1FF
-                print("number of gates: ",num_gates)
+                # print("number of gates: ",num_gates)
                 rates = []
                 gate = self.regs.read32(REG_GATE_PERIOD)
                 for i in range(num_gates):

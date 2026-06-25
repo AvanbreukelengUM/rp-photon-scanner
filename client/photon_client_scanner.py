@@ -96,15 +96,6 @@ class PhotonScanner:
         """
         self._send(f"SET_GATE {cycles}")
 
-    def get_status(self) -> dict:
-        """Get full status dictionary."""
-        resp = self._send("GET_STATUS")
-        result = {}
-        for pair in resp.split():
-            k, v = pair.split("=")
-            result[k] = int(v)
-        return result
-
     def get_config(self) -> dict:
         """Get current configuration."""
         resp = self._send("GET_CONFIG")

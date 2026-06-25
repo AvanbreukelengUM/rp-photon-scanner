@@ -2,8 +2,8 @@
 // Photon Counter Module for Red Pitaya STEMlab 125-14
 //
 // Real-time pulse detection on ADC channel with configurable threshold
-// and dead time. Provides pulse counting, gated count rate via system bus registers,
-// in response to software or AWG triggers
+// and dead time. Provides pulse counting, gated count rate, and optional
+// pulse height histogram via system bus registers.
 //
 // System bus slot: sys[7] -> base address 0x40700000
 ////////////////////////////////////////////////////////////////////////////////
@@ -33,8 +33,12 @@ module photon_scanner (
 // 0x00  CTRL        R/W  [0]=enable, [1]=reset (auto-clears)
 // 0x04  THRESHOLD   R/W  16-bit signed threshold
 // 0x08  DEAD_TIME   R/W  dead time in clock cycles (16-bit)
+// 0x0C  COUNT       R    32-bit cumulative pulse count
+// 0x10  COUNT_RATE  R    pulses counted in last gate period
 // 0x14  GATE_PERIOD R/W  gate period in clock cycles (32-bit)
+// 0x18  PEAK_LAST   R    peak ADC value of most recent pulse
 // 0x1C  STATUS      R    [0]=enabled, [1]=counting overflow
+// 0x20  ADC_RAW     R    current ADC sample (for threshold tuning)
 
 // 0x28  TRIG_TOTAL_GATES  R/W  Number of gates to count (N)
 // 0x34  TRIG_READ_INDEX   R/W  Index for reading back counts (0 to N-1)
@@ -55,7 +59,7 @@ logic       reg_soft_trig;        // Software trigger, overwriting trig_active, 
 
 
 // Status / readback registers
-parameter MAX_TRIG_GATES = 128;  // Max number of gates (adjust as needed) //here
+parameter MAX_TRIG_GATES = 256;  // Max number of gates (adjust as needed) //here
 logic [31:0] counted_gates [0:MAX_TRIG_GATES-1]; // Counts per gate
 //(* ram_style = "block" *) logic [31:0] counted_gates [0:MAX_TRIG_GATES-1];
 logic [8:0]  reg_trig_read_index;    // Index for reading back counts
@@ -101,14 +105,14 @@ always_ff @(posedge clk_i) begin
         20'h04: reg_threshold   <= sys_wdata[15:0];
         20'h08: reg_deadtime    <= sys_wdata[15:0];
         20'h14: reg_gate_period <= sys_wdata;
-//        20'h00028: reg_trig_total_gates <= sys_wdata[6:0];
-        20'h00028: begin
+        20'h00028: reg_trig_total_gates <= sys_wdata[8:0];
+ /*       20'h00028: begin
           // Clamp reg_trig_total_gates to MAX_TRIG_GATES
           if (sys_wdata[8:0] > MAX_TRIG_GATES)
             reg_trig_total_gates <= MAX_TRIG_GATES;
           else
             reg_trig_total_gates <= sys_wdata[8:0];
-        end
+        end      */
         20'h34: reg_trig_read_index <= sys_wdata[8:0];
         20'h40: reg_soft_trig <= sys_wdata[0];  // Directly trigger through software (bit 0)
         default: ;
@@ -237,8 +241,8 @@ always_ff @(posedge clk_i) begin
     trig_active       <= 1'b0;
     trig_done         <= 1'b0;
     current_trig_gate <= '0;
-    for (int i = 0; i < MAX_TRIG_GATES; i++)
-        counted_gates[i] <= '0;
+//    for (int i = 0; i < MAX_TRIG_GATES; i++)
+//        counted_gates[i] <= '0;
   end
   else if (reg_enable) begin
     // Start counting on rising edge of trig_in
@@ -247,12 +251,12 @@ always_ff @(posedge clk_i) begin
       trig_done         <= 1'b0;
       current_trig_gate <= '0;
       gate_counter      <= '0;
-      for (int i = 0; i < MAX_TRIG_GATES; i++)
-        counted_gates[i] <= '0;
+//      for (int i = 0; i < reg_trig_total_gates; i++)
+//        counted_gates[i] <= '0;
     end
     if (trig_active) begin
-//          if (gate_counter == 0)
-//            counted_gates[current_trig_gate] <= '0;
+        if (gate_counter == 0)
+            counted_gates[current_trig_gate] <= '0;
       // Count photons in current gate
         if (pulse_detected) begin
             if (counted_gates[current_trig_gate] != 32'hFFFFFFFF)
