@@ -1,7 +1,7 @@
 [project]
-name = "photon-counter-client"
+name = "photon-scanner-client"
 version = "0.1.0"
-description = "Add your description here"
+description = "To be used for PyMoDAQ"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

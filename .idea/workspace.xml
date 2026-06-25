@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ba3507d-bcd6-441d-be22-b4e16cdb1ec2" name="Changes" comment="New clean photon_scanner version. Both software and AWG triggers possible" />
+    <list default="true" id="2ba3507d-bcd6-441d-be22-b4e16cdb1ec2" name="Changes" comment="New clean photon_scanner version. Both software and AWG triggers possible">
+      <change beforePath="$PROJECT_DIR$/client/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pyproject.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fpga/rtl/photon_scanner.sv" beforeDir="false" afterPath="$PROJECT_DIR$/fpga/rtl/photon_scanner.sv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/photon_server_scanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/photon_server_scanner.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,31 +48,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.0D_test.executor": "Run",
-    "Python.0D_test_soft_trigger.executor": "Run",
-    "Python.Debugging.executor": "Run",
-    "Python.Scan_test.executor": "Run",
-    "Python.Scanner_Test.executor": "Run",
-    "Python.live_monitor.executor": "Run",
-    "Python.live_monitor_1D.executor": "Run",
-    "Python.live_monitor_nkd.executor": "Run",
-    "Python.photon_client_1D.executor": "Run",
-    "Python.photon_server.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "scanner__dev",
-    "last_opened_file_path": "C:/Users/Oriole/Documents/Alejandro/PyCharm_Projects/rp-photon-scanner",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "PyPlotsConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.0D_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.0D_test_soft_trigger.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Debugging.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Scan_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Scanner_Test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.live_monitor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.live_monitor_1D.executor&quot;: &quot;Run&quot;,
+    &quot;Python.live_monitor_nkd.executor&quot;: &quot;Run&quot;,
+    &quot;Python.photon_client_1D.executor&quot;: &quot;Run&quot;,
+    &quot;Python.photon_server.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;scanner__dev&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Oriole/Documents/Alejandro/PyCharm_Projects/rp-photon-scanner&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;PyPlotsConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner\fpga\rtl" />

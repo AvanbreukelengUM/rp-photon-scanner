@@ -33,12 +33,8 @@ module photon_scanner (
 // 0x00  CTRL        R/W  [0]=enable, [1]=reset (auto-clears)
 // 0x04  THRESHOLD   R/W  16-bit signed threshold
 // 0x08  DEAD_TIME   R/W  dead time in clock cycles (16-bit)
-// 0x0C  COUNT       R    32-bit cumulative pulse count
-// 0x10  COUNT_RATE  R    pulses counted in last gate period
 // 0x14  GATE_PERIOD R/W  gate period in clock cycles (32-bit)
-// 0x18  PEAK_LAST   R    peak ADC value of most recent pulse
 // 0x1C  STATUS      R    [0]=enabled, [1]=counting overflow
-// 0x20  ADC_RAW     R    current ADC sample (for threshold tuning)
 
 // 0x28  TRIG_TOTAL_GATES  R/W  Number of gates to count (N)
 // 0x34  TRIG_READ_INDEX   R/W  Index for reading back counts (0 to N-1)
