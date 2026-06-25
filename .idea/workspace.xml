@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2ba3507d-bcd6-441d-be22-b4e16cdb1ec2" name="Changes" comment="New clean photon_scanner version. Both software and AWG triggers possible" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="scanner_old" />
+        <entry key="$PROJECT_DIR$/RedPitaya-FPGA" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;AvanbreukelengUM&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/AvanbreukelengUM/rp-photon-counter.git&quot;,
+    &quot;accountId&quot;: &quot;570e87ad-885a-4e30-b387-ed8757ebe9d9&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3DLvBHkG3234SnkraNkbCsjViFr" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.0D_test.executor": "Run",
+    "Python.0D_test_soft_trigger.executor": "Run",
+    "Python.Debugging.executor": "Run",
+    "Python.Scan_test.executor": "Run",
+    "Python.Scanner_Test.executor": "Run",
+    "Python.live_monitor.executor": "Run",
+    "Python.live_monitor_1D.executor": "Run",
+    "Python.live_monitor_nkd.executor": "Run",
+    "Python.photon_client_1D.executor": "Run",
+    "Python.photon_server.executor": "Run",
+    "Python.test.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "scanner__dev",
+    "last_opened_file_path": "C:/Users/Oriole/Documents/Alejandro/PyCharm_Projects/rp-photon-scanner",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "PyPlotsConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner\fpga\rtl" />
+      <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner\Test" />
+      <recent name="C:\Users\Oriole\Documents\Alejandro\FPGA\rp-photon-counter\fpga\rtl" />
+      <recent name="C:\Users\Oriole\Documents\Alejandro\FPGA\rp-photon-counter\client" />
+      <recent name="C:\Users\Oriole\Documents\Alejandro\FPGA\rp-photon-counter\server" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner\fpga\rtl" />
+      <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Scan_test" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="rp-photon-counter" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="DEBUG_JUST_MY_CODE" value="false" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Test/Scan_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-b63d5a1f7c97-b61e75351b1f-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.22158.340" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2ba3507d-bcd6-441d-be22-b4e16cdb1ec2" name="Changes" comment="" />
+      <created>1778074027701</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1778074027701</updated>
+      <workItem from="1778074028727" duration="10591000" />
+    </task>
+    <task id="LOCAL-00001" summary="scanner">
+      <option name="closed" value="true" />
+      <created>1780992597153</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1780992597153</updated>
+    </task>
+    <task id="LOCAL-00002" summary="from 10 bits to 9 bits (512 pixels)">
+      <option name="closed" value="true" />
+      <created>1781194508724</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1781194508724</updated>
+    </task>
+    <task id="LOCAL-00003" summary="All">
+      <option name="closed" value="true" />
+      <created>1781195535725</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1781195535725</updated>
+    </task>
+    <task id="LOCAL-00004" summary="All">
+      <option name="closed" value="true" />
+      <created>1781195715964</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1781195715964</updated>
+    </task>
+    <task id="LOCAL-00005" summary="All">
+      <option name="closed" value="true" />
+      <created>1781197020650</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1781197020650</updated>
+    </task>
+    <task id="LOCAL-00006" summary="All">
+      <option name="closed" value="true" />
+      <created>1781197158473</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1781197158473</updated>
+    </task>
+    <task id="LOCAL-00007" summary="All">
+      <option name="closed" value="true" />
+      <created>1781197178003</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1781197178003</updated>
+    </task>
+    <task id="LOCAL-00008" summary="All">
+      <option name="closed" value="true" />
+      <created>1781197233917</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1781197233917</updated>
+    </task>
+    <task id="LOCAL-00009" summary="All">
+      <option name="closed" value="true" />
+      <created>1781197307531</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1781197307531</updated>
+    </task>
+    <task id="LOCAL-00010" summary="All">
+      <option name="closed" value="true" />
+      <created>1781285494467</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1781285494467</updated>
+    </task>
+    <task id="LOCAL-00011" summary="All">
+      <option name="closed" value="true" />
+      <created>1781285534515</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1781285534515</updated>
+    </task>
+    <task id="LOCAL-00012" summary="New versions of test files and client. It will be changed, but it is for the commit">
+      <option name="closed" value="true" />
+      <created>1782397694245</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1782397694245</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Change naming">
+      <option name="closed" value="true" />
+      <created>1782398663445</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1782398663445</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Change naming">
+      <option name="closed" value="true" />
+      <created>1782398679445</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1782398679445</updated>
+    </task>
+    <task id="LOCAL-00015" summary="New clean photon_scanner version. Both software and AWG triggers possible">
+      <option name="closed" value="true" />
+      <created>1782399781498</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1782399781498</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="scanner" />
+    <MESSAGE value="from 10 bits to 9 bits (512 pixels)" />
+    <MESSAGE value="All" />
+    <MESSAGE value="New versions of test files and client. It will be changed, but it is for the commit" />
+    <MESSAGE value="Change naming" />
+    <MESSAGE value="New clean photon_scanner version. Both software and AWG triggers possible" />
+    <option name="LAST_COMMIT_MESSAGE" value="New clean photon_scanner version. Both software and AWG triggers possible" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/rp_photon_counter$live_monitor.coverage" NAME="live_monitor Coverage Results" MODIFIED="1778084008905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/client" />
+    <SUITE FILE_PATH="coverage/rp_photon_counter$test.coverage" NAME="test Coverage Results" MODIFIED="1778084450637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/client" />
+    <SUITE FILE_PATH="coverage/rp_photon_counter$photon_server.coverage" NAME="photon_server Coverage Results" MODIFIED="1778083637076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/server" />
+  </component>
+</project>
