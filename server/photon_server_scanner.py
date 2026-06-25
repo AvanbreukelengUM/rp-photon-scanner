@@ -36,7 +36,7 @@ REG_TRIG_STATUS      = 0x38  # [0]=trig_active, [1]=trig_done
 REG_SOFT_TRIG        = 0x40  # R/W  Allows to generate a trig_rising edge and force the counting of photons (software trigger)
 REG_TRIG_COUNTS_BASE = 0x500  # Base address for gate counts (256 x 4 bytes)
 
-MAX_TRIG_GATES = 256 # Maximum number of gates
+MAX_TRIG_GATES = 512 # Maximum number of gates
 
 class FPGARegs:
     """Memory-mapped access to FPGA registers via /dev/mem."""

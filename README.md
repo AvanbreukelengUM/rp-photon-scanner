@@ -2,14 +2,13 @@
 
 FPGA-based photon counter for the [Red Pitaya STEMlab 125-14](https://redpitaya.com/stemlab-125-14/). Real-time pulse counting at 125 MSPS using the onboard FPGA, with a TCP server and Python client for remote control and live monitoring.
 
-Designed for SiPM/SPAD single-photon detectors. Tested with the [Thorlabs PDA42](https://www.thorlabs.com/thorproduct.cfm?partnumber=PDA42) SiPM amplified detector for Raman spectroscopy and low-light applications.
+[//]: # (Designed for SiPM/SPAD single-photon detectors. Tested with the [Thorlabs PDA42]&#40;https://www.thorlabs.com/thorproduct.cfm?partnumber=PDA42&#41; SiPM amplified detector for Raman spectroscopy and low-light applications.)
 
 ## Features
 
 - **125 MSPS** continuous pulse detection on FPGA (no dead gaps)
 - Configurable **threshold discriminator** with adjustable dead time
 - **32-bit pulse counter** + gated count rate measurement
-- **64-bin pulse height histogram** for amplitude analysis
 - **TCP server** on Red Pitaya ARM for remote control
 - **Python client** with real-time matplotlib live monitoring
 - Runs alongside the standard Red Pitaya v0.94 ecosystem (web UI still works)

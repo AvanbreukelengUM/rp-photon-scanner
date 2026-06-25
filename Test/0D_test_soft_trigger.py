@@ -10,12 +10,12 @@ pc.enable()
 
 pc.set_threshold(100)
 pc.set_deadtime(1)
-gate_cycles = int(10/200 * 125_000_000)
+gate_cycles = int(1/200 * 125_000_000)
 pc.set_gate_period(gate_cycles)
 pc.trig_soft(False)
 
 # time.sleep(5)
-pc.set_pixels(int(510))
+pc.set_pixels(int(500))
 while True:
     print("start")
     t0 = time.time()

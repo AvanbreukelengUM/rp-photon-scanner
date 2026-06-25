@@ -59,7 +59,7 @@ logic       reg_soft_trig;        // Software trigger, overwriting trig_active, 
 
 
 // Status / readback registers
-parameter MAX_TRIG_GATES = 256;  // Max number of gates (adjust as needed) //here
+parameter MAX_TRIG_GATES = 512;  // Max number of gates (adjust as needed) //here
 logic [31:0] counted_gates [0:MAX_TRIG_GATES-1]; // Counts per gate
 //(* ram_style = "block" *) logic [31:0] counted_gates [0:MAX_TRIG_GATES-1];
 logic [8:0]  reg_trig_read_index;    // Index for reading back counts
@@ -150,7 +150,7 @@ end else begin
       default: begin
       // TRIG_COUNTS[0..255] at 0x500-0x14FF
         if (sys_addr[19:0] >= 20'h500 && sys_addr[19:0] < 20'h1500)
-          sys_rdata <= counted_gates[sys_addr[9:2] - 9'd320];
+          sys_rdata <= counted_gates[sys_addr[11:2] - 10'd320];
         else
           sys_rdata <= 32'h0;
       end
