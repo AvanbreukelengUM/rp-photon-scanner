@@ -262,6 +262,10 @@ class PhotonScanner:
         """Arm or disarm the trigger."""
         self._send(f"SET_TRIG_ARM {int(arm)}")
 
+    def trig_soft(self, trigger: bool) -> None:
+        """Software trigger the counting"""
+        self._send(f"TRIG_SOFT {int(trigger)}")
+
     def set_trig_total_gates(self, num_gates: int) -> None:
         """Set the number of gates for triggered counting (1-1024)."""
         if num_gates < 1 or num_gates > 1024:
@@ -283,12 +287,12 @@ class PhotonScanner:
     def get_trig_counts(self) -> List[int]:
         """Get counts for all gates as a list."""
         resp = self._send("GET_TRIG_COUNTS")
-        return [int(x) for x in resp.split()]
+        return [int(float(x)) for x in resp.split()]
 
     def get_trig_rates(self) -> List[int]:
         """Get counts for all gates as a list."""
         resp = self._send("GET_TRIG_RATES")
-        return [int(x) for x in resp.split()]
+        return [int(float(x)) for x in resp.split()]
 
     def get_trig_count(self, index: int) -> int:
         """Get count for a specific gate."""

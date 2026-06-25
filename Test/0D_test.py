@@ -7,8 +7,8 @@ pc.disable()
 pc.reset()
 pc.stop_stream()
 pc.enable()
-pc.set_trig_arm(False)
-pc.set_trig_enable(False)
+# pc.set_trig_arm(False)
+# pc.set_trig_enable(False)
 
 
 # pc.start_stream_trig()
