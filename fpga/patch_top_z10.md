@@ -10,10 +10,11 @@ Find this line (near the end, before `endif`):
 
 Replace with:
 
-    photon_counter i_photon_counter (
+    photon_scanner i_photon_scanner (
       .clk_i      (adc_clk       ),
       .rstn_i     (adc_rstn      ),
       .adc_dat_i  (adc_dat[0]    ),  // ADC channel 1
+      .trig_in    (trig_asg_out  ),  // Connect to ASG trigger\
       .sys_addr   (sys[7].addr   ),
       .sys_wdata  (sys[7].wdata  ),
       .sys_wen    (sys[7].wen    ),
@@ -25,7 +26,7 @@ Replace with:
 
 ## 2. Add photon_counter.sv to the project
 
-Copy `fpga/rtl/photon_counter.sv` to `RedPitaya-FPGA/prj/v0.94/rtl/photon_counter.sv`
+Copy `fpga/rtl/photon_scanner.sv` to `RedPitaya-FPGA/prj/v0.94/rtl/photon_scanner.sv`
 
 The Vivado project's TCL script should pick it up automatically if it scans the rtl/ directory,
 or you may need to add it manually in Vivado's source list.
