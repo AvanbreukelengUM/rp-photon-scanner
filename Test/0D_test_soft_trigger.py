@@ -15,7 +15,7 @@ pc.set_gate_period(gate_cycles)
 pc.trig_soft(False)
 
 # time.sleep(5)
-pc.set_pixels(int(1729))
+pc.set_pixels(int(4095))
 while True:
     print("start")
     t0 = time.time()
