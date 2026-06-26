@@ -6,9 +6,9 @@ pc.disable()
 pc.reset()
 pc.enable()
 
-pc.set_threshold(100)
-pc.set_deadtime(1)
-gate_cycles = int(0.01 * 125_000_000)
+pc.set_threshold(1)
+pc.set_deadtime(0)
+gate_cycles = int(10/100 * 125_000_000)
 pc.set_gate_period(gate_cycles)
 pc.set_pixels(int(100))
 print(pc.get_config())
@@ -27,5 +27,5 @@ while True:
     if status.trig_done:
         print("Trigger Done")
         break
-print(pc.get_trig_rates())
+print(pc.get_trig_rates_debug())
 # Read all gate counts (0x500 to 0x500 + 4*num_gates)

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ba3507d-bcd6-441d-be22-b4e16cdb1ec2" name="Changes" comment="New versions for 256 max trig gates">
+    <list default="true" id="2ba3507d-bcd6-441d-be22-b4e16cdb1ec2" name="Changes" comment="New versions for 512 max trig gates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Test/0D_test_soft_trigger.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test/0D_test_soft_trigger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test/Scan_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test/Scan_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/photon_client_scanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/photon_client_scanner.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/photon_server_scanner.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/photon_server_scanner.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +69,7 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "scanner__dev",
-    "last_opened_file_path": "C:/Users/Oriole/Documents/Alejandro/PyCharm_Projects/rp-photon-scanner/fpga/BIT_scanner_256",
+    "last_opened_file_path": "C:/Users/Oriole/Documents/Alejandro/PyCharm_Projects/rp-photon-scanner/fpga/BIT_scanner_512",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "PyPlotsConfigurable",
     "vue.rearranger.settings.migration": "true"
@@ -77,11 +77,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner\fpga\BIT_scanner_512" />
       <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner\fpga\BIT_scanner_256" />
       <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner\fpga\BIT" />
       <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner\fpga\rtl" />
       <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner\Test" />
-      <recent name="C:\Users\Oriole\Documents\Alejandro\FPGA\rp-photon-counter\fpga\rtl" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Oriole\Documents\Alejandro\PyCharm_Projects\rp-photon-scanner\fpga" />
@@ -267,7 +267,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782407405260</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="New versions for 512 max trig gates">
+      <option name="closed" value="true" />
+      <created>1782410563388</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1782410563388</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -281,7 +289,8 @@
     <MESSAGE value="Change naming" />
     <MESSAGE value="New clean photon_scanner version. Both software and AWG triggers possible" />
     <MESSAGE value="New versions for 256 max trig gates" />
-    <option name="LAST_COMMIT_MESSAGE" value="New versions for 256 max trig gates" />
+    <MESSAGE value="New versions for 512 max trig gates" />
+    <option name="LAST_COMMIT_MESSAGE" value="New versions for 512 max trig gates" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/rp_photon_counter$live_monitor.coverage" NAME="live_monitor Coverage Results" MODIFIED="1778084008905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/client" />
