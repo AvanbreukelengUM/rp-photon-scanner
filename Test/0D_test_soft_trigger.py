@@ -10,7 +10,7 @@ pc.enable()
 
 pc.set_threshold(100)
 pc.set_deadtime(0)
-gate_cycles = int(0.001 * 125_000_000)
+gate_cycles = int(10/4095 * 125_000_000)
 pc.set_gate_period(gate_cycles)
 pc.trig_soft(False)
 
