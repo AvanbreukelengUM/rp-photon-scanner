@@ -147,14 +147,14 @@ class PhotonScanner:
 
     def get_trig_count(self, index: int) -> int:
         """Get count for a specific gate."""
-        if index < 0 or index >= 1024:
-            raise ValueError("index must be between 0 and 1023")
+        if index < 0 or index >= MAX_TRIG_GATES:
+            raise ValueError("index must be between 0 and ",MAX_TRIG_GATES)
         return int(self._send(f"GET_TRIG_COUNT {index}"))
 
     def get_trig_rate(self, index: int) -> int:
         """Get count for a specific gate."""
-        if index < 0 or index >= 1024:
-            raise ValueError("index must be between 0 and 1023")
+        if index < 0 or index >= MAX_TRIG_GATES:
+            raise ValueError("index must be between 0 and,",MAX_TRIG_GATES)
         return int(self._send(f"GET_TRIG_RATE {index}"))
 
     def get_trig_config(self) -> dict:
