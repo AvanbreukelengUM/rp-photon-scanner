@@ -25,6 +25,8 @@ import time
 from dataclasses import dataclass
 from typing import Optional, List, Tuple
 
+from server.photon_server_scanner import MAX_TRIG_GATES
+
 # @dataclass
 # class CountRate:
 #     raw_counts: int       # counts in last gate period
@@ -112,8 +114,8 @@ class PhotonScanner:
 
     def set_trig_total_gates(self, num_gates: int) -> None:
         """Set the number of gates for triggered counting (1-1024)."""
-        if num_gates < 1 or num_gates > 1024:
-            raise ValueError("num_gates must be between 1 and 1024")
+        if num_gates < 1 or num_gates > MAX_TRIG_GATES:
+            raise ValueError("num_gates must be between 1 and",MAX_TRIG_GATES)
         self._send(f"SET_TRIG_TOTAL_GATES {num_gates}")
 
     def set_pixels(self, num_gates: int):

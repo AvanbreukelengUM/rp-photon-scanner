@@ -54,16 +54,16 @@ logic signed [15:0] reg_threshold;
 logic [15:0] reg_deadtime;
 logic [31:0] reg_gate_period;
 
-logic [10:0] reg_trig_total_gates;   // Number of gates to count (N)
-logic       reg_soft_trig;        // Software trigger, overwriting trig_active, Written by the bus (combinational)
+logic [12:0] reg_trig_total_gates;   // Number of gates to count (N)
+logic        reg_soft_trig;        // Software trigger, overwriting trig_active, Written by the bus (combinational)
 
 
 // Status / readback registers
-parameter MAX_TRIG_GATES = 1024;  // Max number of gates (adjust as needed) //here
+parameter MAX_TRIG_GATES = 4096;  // Max number of gates (adjust as needed) //here
 logic [31:0] counted_gates [0:MAX_TRIG_GATES-1]; // Counts per gate
 //(* ram_style = "block" *) logic [31:0] counted_gates [0:MAX_TRIG_GATES-1];
 //logic [9:0]  reg_trig_read_index;    // Index for reading back counts
-logic [9:0]  current_trig_gate;      // Current gate index (0 to N-1)
+logic [11:0]  current_trig_gate;      // Current gate index (0 to N-1)
 logic        trig_active;            // Triggered counting is active
 logic        trig_done;              // All gates counted
 
@@ -88,7 +88,7 @@ always_ff @(posedge clk_i) begin
     reg_deadtime    <= 16'd16;       // 128 ns default
     reg_gate_period <= 32'd125_000_000; // 1 second default
 
-    reg_trig_total_gates <= 11'd1;       // Default: 1 gate
+    reg_trig_total_gates <= 12'd1;       // Default: 1 gate
 //    reg_trig_read_index  <= 10'd0;        // Start reading from index 0
     reg_soft_trig        <= 1'b0;        // Disarmed by default
   end else begin
@@ -105,7 +105,7 @@ always_ff @(posedge clk_i) begin
         20'h04: reg_threshold   <= sys_wdata[15:0];
         20'h08: reg_deadtime    <= sys_wdata[15:0];
         20'h14: reg_gate_period <= sys_wdata;
-        20'h00028: reg_trig_total_gates <= sys_wdata[10:0];
+        20'h00028: reg_trig_total_gates <= sys_wdata[11:0];
  /*       20'h00028: begin
           // Clamp reg_trig_total_gates to MAX_TRIG_GATES
           if (sys_wdata[8:0] > MAX_TRIG_GATES)
@@ -143,14 +143,14 @@ end else begin
       20'h00004: sys_rdata <= {{16{reg_threshold[15]}}, reg_threshold};
       20'h00008: sys_rdata <= {16'b0, reg_deadtime};
       20'h00014: sys_rdata <= reg_gate_period;
-      20'h00028: sys_rdata <= {23'b0, reg_trig_total_gates[10:0]}; // TRIG_TOTAL_GATES
+      20'h00028: sys_rdata <= {20'b0, reg_trig_total_gates[11:0]}; // TRIG_TOTAL_GATES
 //      20'h00034: sys_rdata <= {23'b0, reg_trig_read_index[9:0]}; // TRIG_READ_INDEX
       20'h00038: sys_rdata <= {30'b0, trig_active, trig_done};   // TRIG_STATUS
       20'h00040: sys_rdata <= {30'b0, reg_soft_trig};          // REG_SOFT_TRIG
       default: begin
       // TRIG_COUNTS[0..255] at 0x500-0x14FF
-        if (sys_addr[19:0] >= 20'h500 && sys_addr[19:0] < 20'h1504)
-          sys_rdata <= counted_gates[sys_addr[12:2] - 10'd320];
+        if (sys_addr[19:0] >= 20'h500 && sys_addr[19:0] < 20'h4500)
+          sys_rdata <= counted_gates[sys_addr[14:2] - 11'd320];
         else
           sys_rdata <= 32'h0;
       end

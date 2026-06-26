@@ -9,17 +9,17 @@ pc.reset()
 pc.enable()
 
 pc.set_threshold(100)
-pc.set_deadtime(1)
-gate_cycles = int(0.1 * 125_000_000)
+pc.set_deadtime(0)
+gate_cycles = int(0.001 * 125_000_000)
 pc.set_gate_period(gate_cycles)
 pc.trig_soft(False)
 
 # time.sleep(5)
-pc.set_pixels(int(100))
+pc.set_pixels(int(1729))
 while True:
     print("start")
     t0 = time.time()
-    time.sleep(5)
+    time.sleep(2)
     pc.trig_soft(True)
     while True:
         status =pc.get_trig_status()
@@ -33,8 +33,8 @@ while True:
             print("Trigger Done")
             break
     print(time.time() - t0)
-    print(pc.get_trig_rates())
-    print(np.size(pc.get_trig_rates()))
+    print(pc.get_trig_rates_debug())
+    print(np.size(pc.get_trig_rates_debug()))
     pc.trig_soft(False)
 
 
