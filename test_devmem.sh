@@ -28,10 +28,6 @@ devmem $((BASE + 0x08)) 32 16
 echo -n "DEADTIME:   "
 devmem $((BASE + 0x08))
 
-# Read current ADC value
-echo -n "ADC_RAW:    "
-devmem $((BASE + 0x20))
-
 # Enable counting
 echo "Enabling counter..."
 devmem $((BASE + 0x00)) 32 1
@@ -40,16 +36,12 @@ devmem $((BASE + 0x00)) 32 1
 sleep 1
 
 # Read count
-echo -n "COUNT:      "
-devmem $((BASE + 0x0C))
-
-# Read rate
-echo -n "COUNT_RATE: "
-devmem $((BASE + 0x10))
+echo -n "COUNTS:      "
+devmem $((BASE + 0x500))
 
 # Read status
-echo -n "STATUS:     "
-devmem $((BASE + 0x1C))
+echo -n "TRIG_STATUS:     "
+devmem $((BASE + 0x38))
 
 # Disable
 echo "Disabling counter."
