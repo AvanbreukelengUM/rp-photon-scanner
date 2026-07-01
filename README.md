@@ -142,12 +142,12 @@ Run a threshold scan to find the optimal discrimination point for your detector:
 ```
 rp-photon-counter/
   fpga/
-    rtl/photon_counter.sv    # FPGA module (SystemVerilog)
+    rtl/photon_scanner.sv    # FPGA module (SystemVerilog)
     apply_patch.sh           # Patches Red Pitaya top module
   server/
-    photon_server.py         # TCP server (runs on RP ARM)
+    photon_server_scanner.py         # TCP server (runs on RP ARM)
   client/
-    photon_client.py         # Python client library
+    photon_client_scanner.py         # Python client library
     live_monitor.py          # Real-time matplotlib plotting
     pyproject.toml           # Python project config
   test_devmem.sh             # Low-level register test
@@ -160,7 +160,7 @@ The FPGA module (`photon_scanner.sv`) taps into the Red Pitaya's ADC at 125 MSPS
 0. **Triggering**: Waits for either a software trigger or trigger from the ASG generator (indicating start of generation)
 1. **Threshold crossing detection**: Fires when `ADC[n] >= threshold` and `ADC[n-1] < threshold`
 2. **Dead time**: Ignores subsequent crossings for a configurable number of clock cycles
-3. **Counting**: Increments a 32-bit counter per detected pulse; also computes gated count rate
+3. **Counting**: Increments a 32-bit counter per detected pulse per gate; goes to next gate when N cycles have passed
 
 All configuration and readout happens through memory-mapped registers at base address `0x40700000`, accessible from Linux via `/dev/mem`.
 
