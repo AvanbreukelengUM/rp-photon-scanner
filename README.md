@@ -1,6 +1,8 @@
 # rp-photon-counter and scanner
 
-FPGA-based photon counter for the [Red Pitaya STEMlab 125-14](https://redpitaya.com/stemlab-125-14/). Real-time pulse counting at 125 MSPS using the onboard FPGA, with a TCP server and Python client for remote control and live monitoring.
+Original counter by XavierIsabel: https://github.com/XavierIsabel/rp-photon-counter
+
+FPGA-based photon counter for the [Red Pitaya STEMlab 125-14](https://redpitaya.com/stemlab-125-14/). Real-time pulse counting at 125 MSPS using the onboard FPGA, with a TCP server and Python client for remote control and live monitoring. Devised to be used in tandem with PyMoDAQ (https://github.com/AvanbreukelengUM/pymodaq_plugins_redpitaya/tree/dev_L2C_dilu_photon_dev).
 
 [//]: # (Designed for SiPM/SPAD single-photon detectors. Tested with the [Thorlabs PDA42]&#40;https://www.thorlabs.com/thorproduct.cfm?partnumber=PDA42&#41; SiPM amplified detector for Raman spectroscopy and low-light applications.)
 
@@ -10,19 +12,19 @@ FPGA-based photon counter for the [Red Pitaya STEMlab 125-14](https://redpitaya.
 - Configurable **threshold discriminator** with adjustable dead time
 - **32-bit pulse counter** + gated count rate measurement
 - **TCP server** on Red Pitaya ARM for remote control
-- **Python client** with real-time matplotlib live monitoring
-- Runs alongside the standard Red Pitaya v0.94 ecosystem (web UI still works)
+- **Python client** for software triggering and count retrieving
+- Runs alongside the standard Red Pitaya v0.94 ecosystem (web UI and SCPI commands still work)
 
 ## Hardware Requirements
 
 - Red Pitaya STEMlab 125-14 (tested on Pro v2.0, model `z10_125_pro_v2`)
-- SiPM or SPAD detector with voltage pulse output (e.g., Thorlabs PDA42)
+- Detector with voltage pulse output between -20V and 20V, with pulses longer than 18ns
 - SMA cable connecting detector to IN1
 - Direct Ethernet connection between Red Pitaya and PC
 
 ### Input Configuration
 
-Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20V input range. This is required for the PDA42 which outputs up to +-2V.
+Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20V input range if your detector outputs more than 1V high pulses.
 
 ## Getting Started
 
@@ -30,7 +32,7 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
 
 - [Xilinx Vivado 2020.1 WebPACK](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/archive.html) (free, for building FPGA bitstream)
 - Python 3.12+ with [uv](https://docs.astral.sh/uv/)
-- SSH access to Red Pitaya (`root` / `root` default credentials)
+- SSH access to Red Pitaya (`root` / `root` default credentials). In the following, replace the IP address with your RedPitaya's.
 
 ### Build and Deploy
 
@@ -49,6 +51,7 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
    ```bash
    source /opt/Xilinx/Vivado/2020.1/settings64.sh
    cd RedPitaya-FPGA
+   make clean
    make PRJ=v0.94 MODEL=Z10
    ```
    Note: The build will report an error about `xsct` — this is expected (FSBL compilation, not needed).
@@ -78,42 +81,48 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
    ```
 
 ### Usage
-0. **Make Server starting file** on the RP:
-   ```
+1. **Send Server file to RP** :
+   ```bash
+   cd ~/rp-photon-counter/server
+   scp photon_server_scanner.py root@169.254.121.34:/root/photon_server_scanner.py
+   
+3. **Make Server starting file** on the RP:
+   ```bash
+   ssh root@<RP_IP>
    cat > /root/start_photon_scanner.sh <<'EOF'
    #!/bin/sh
    cd /root
    exec python3 /root/photon_server_scanner.py --port 5555
    EOF
     ```
-Then make it executable:
+2. **Then make it executable**
+    ```bash
+   chmod +x /root/start_photon_scanner.sh
+   ```
 
- ```chmod +x /root/start_photon_scanner.sh ```
-
-0. **Start the TCP server** on the Red Pitaya:
+3. **Start the TCP server** on the Red Pitaya:
    ```bash
    ssh root@<RP_IP> '/root/start_photon_scanner.sh'
    ```
 
-1. **Run the live monitor** on your PC:
+4. **Run the live monitor** on your PC:
    ```bash
    cd client
-   uv run python3 live_monitor.py --threshold 28 --histogram
+   uv run python3 live_monitor.py --threshold 28
    ```
 
-2. **Or use the Python client** programmatically:
+5. **Or use the Python client** programmatically:
    ```python
    from photon_client import PhotonCounter
 
    pc = PhotonCounter("169.254.32.2")
    pc.set_threshold(28)
    pc.set_deadtime(16)
+   pc.set_pixels(1)
    pc.enable()
 
-   rate = pc.get_rate()
-   print(f"Count rate: {rate.cps:.0f} cps")
-
-   histogram = pc.get_histogram()
+   rates = pc.get_trig_rates()
+   print(f"Count rates:", rates ," cps")
    pc.close()
    ```
 
@@ -133,12 +142,12 @@ Run a threshold scan to find the optimal discrimination point for your detector:
 ```
 rp-photon-counter/
   fpga/
-    rtl/photon_counter.sv    # FPGA module (SystemVerilog)
+    rtl/photon_scanner.sv    # FPGA module (SystemVerilog)
     apply_patch.sh           # Patches Red Pitaya top module
   server/
-    photon_server.py         # TCP server (runs on RP ARM)
+    photon_server_scanner.py         # TCP server (runs on RP ARM)
   client/
-    photon_client.py         # Python client library
+    photon_client_scanner.py         # Python client library
     live_monitor.py          # Real-time matplotlib plotting
     pyproject.toml           # Python project config
   test_devmem.sh             # Low-level register test
@@ -146,12 +155,12 @@ rp-photon-counter/
 
 ## How It Works
 
-The FPGA module (`photon_counter.sv`) taps into the Red Pitaya's ADC data stream at 125 MSPS and performs real-time threshold discrimination:
+The FPGA module (`photon_scanner.sv`) taps into the Red Pitaya's ADC at 125 MSPS and performs real-time threshold discrimination:
 
+0. **Triggering**: Waits for either a software trigger or trigger from the ASG generator (indicating start of generation)
 1. **Threshold crossing detection**: Fires when `ADC[n] >= threshold` and `ADC[n-1] < threshold`
 2. **Dead time**: Ignores subsequent crossings for a configurable number of clock cycles
-3. **Counting**: Increments a 32-bit counter per detected pulse; also computes gated count rate
-4. **Histogram**: Bins the ADC value at each threshold crossing into a 64-bin histogram
+3. **Counting**: Increments a 32-bit counter per detected pulse per gate; goes to next gate when N cycles have passed
 
 All configuration and readout happens through memory-mapped registers at base address `0x40700000`, accessible from Linux via `/dev/mem`.
 
