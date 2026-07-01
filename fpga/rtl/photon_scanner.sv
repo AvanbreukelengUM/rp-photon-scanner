@@ -44,7 +44,7 @@ module photon_scanner (
 // 0x34  TRIG_READ_INDEX   R/W  Index for reading back counts (0 to N-1)
 // 0x38  TRIG_STATUS       R    [0]=trig_active, [1]=trig_done
 // 0x40  REG_SOFT_TRIG         R/W  Allows to set trig_active to 1 and force the counting of photons (software trigger)
-// 0x500-0x14FF TRIG_COUNTS[0..255] R  Counts per gate (32-bit each)
+  // 0x500-0x14FF TRIG_COUNTS[0..4095] R  Counts per gate (32-bit each)
 ////////////////////////////////////////////////////////////////////////////////
 
 // Configuration registers
