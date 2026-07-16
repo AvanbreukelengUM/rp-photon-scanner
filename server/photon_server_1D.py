@@ -3,10 +3,10 @@
 Photon Counter TCP Server — runs on Red Pitaya ARM Linux.
 
 Memory-maps the FPGA registers and exposes a simple text protocol
-over TCP port 5555 for configuration and readout.
+over TCP port 5556 for configuration and readout.
 
 Usage:
-    python3 photon_server.py [--port 5555]
+    python3 photon_server.py [--port 5556]
 """
 
 import mmap
