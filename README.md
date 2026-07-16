@@ -17,14 +17,14 @@ FPGA-based photon counter for the [Red Pitaya STEMlab 125-14](https://redpitaya.
 
 ## Hardware Requirements
 
-- Red Pitaya STEMlab 125-14 (tested on Pro v2.0, model `z10_125_pro_v2`)
+- Red Pitaya STEMlab 125-14 (tested on Pro v2.0, model `z10_125_pro_v2`). If using a different model, adjust the patching if it is no longer Z10.
 - Detector with voltage pulse output between -20V and 20V, with pulses longer than 18ns
 - SMA cable connecting detector to IN1
 - Direct Ethernet connection between Red Pitaya and PC
 
 ### Input Configuration
 
-Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20V input range if your detector outputs more than 1V high pulses.
+Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20V input range if your detector outputs pulses higher than 1V.
 
 ## Getting Started
 
@@ -32,13 +32,13 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
 
 - [Xilinx Vivado 2020.1 WebPACK](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/archive.html) (free, for building FPGA bitstream)
 - Python 3.12+ with [uv](https://docs.astral.sh/uv/)
-- SSH access to Red Pitaya (`root` / `root` default credentials). In the following, replace the IP address with your RedPitaya's.
+- SSH access to Red Pitaya (`root` / `root` default credentials). In the following, replace the <RP_IP> address with your RedPitaya's.
 
 ### Build and Deploy
 
 1. **Clone the Red Pitaya FPGA repo** into this project:
    ```bash
-   cd ~/rp-photon-counter
+   cd ~/rp-photon-scanner
    git clone --depth 1 https://github.com/RedPitaya/RedPitaya-FPGA.git
    ```
 
@@ -66,7 +66,7 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
 5. **Deploy to Red Pitaya**:
    ```bash
    scp red_pitaya.bit.bin root@169.254.121.34:/root/photon_scanner.bit.bin
-   ssh root@169.254.121.34
+   ssh root@<RP_IP>
    mount -o rw,remount /opt/redpitaya
    cp /root/photon_scanner.bit.bin /opt/redpitaya/fpga/z10_125_pro_v2/v0.94/fpga.bit.bin
    sync
@@ -84,7 +84,7 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
 1. **Send Server file to RP** :
    ```bash
    cd ~/rp-photon-counter/server
-   scp photon_server_scanner.py root@169.254.121.34:/root/photon_server_scanner.py
+   scp photon_server_scanner.py root@<RP_IP>:/root/photon_server_scanner.py
    
 3. **Make Server starting file** on the RP:
    ```bash
@@ -140,8 +140,13 @@ Run a threshold scan to find the optimal discrimination point for your detector:
 ## Project Structure
 
 ```
-rp-photon-counter/
+rp-photon-scanner/
+  Test/
+    0D_test.py               # Test the photon counter module. 
+    0D_test_soft_trigger.py  # Test the photon scanner module with software trigger. 
+    Scan_test.py             # Test the photon scanner module with RF generation trigger. 
   fpga/
+    BIT_scanner_4096/red_pitaya_4096.bit.bin    # FPGA bitfile if you would like to upload it directly to the RedPitaya
     rtl/photon_scanner.sv    # FPGA module (SystemVerilog)
     apply_patch.sh           # Patches Red Pitaya top module
   server/
