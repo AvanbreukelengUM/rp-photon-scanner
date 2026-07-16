@@ -189,7 +189,7 @@ class PhotonServer:
 
     def handle_client(self, conn, addr):
         print(f"Client connected: {addr}")
-        conn.settimeout(0.05)
+        conn.settimeout(0.001)
 
         try:
             while True:
