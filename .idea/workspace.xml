@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="51a19950-d367-4d19-a256-66bb627eea3d" name="Changes" comment="Branch with onlu counting. One 0D and one 1D version" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/AvanbreukelengUM/rp-photon-counter.git",
+    "accountId": "570e87ad-885a-4e30-b387-ed8757ebe9d9"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Branch with onlu counting. One 0D and one 1D version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Branch with onlu counting. One 0D and one 1D version" />
+  </component>
+</project>
