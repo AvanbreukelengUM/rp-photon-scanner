@@ -1,4 +1,4 @@
-# rp-photon-counter and scanner
+# rp-photon-counter
 
 FPGA-based photon counter for the [Red Pitaya STEMlab 125-14](https://redpitaya.com/stemlab-125-14/). Real-time pulse counting at 125 MSPS using the onboard FPGA, with a TCP server and Python client for remote control and live monitoring.
 
@@ -63,10 +63,10 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
 
 5. **Deploy to Red Pitaya**:
    ```bash
-   scp red_pitaya.bit.bin root@169.254.121.34:/root/photon_scanner.bit.bin
+   scp red_pitaya.bit.bin root@169.254.121.34:/root/photon_counter.bit.bin
    ssh root@169.254.121.34
    mount -o rw,remount /opt/redpitaya
-   cp /root/photon_scanner.bit.bin /opt/redpitaya/fpga/z10_125_pro_v2/v0.94/fpga.bit.bin
+   cp /root/photon_counter.bit.bin /opt/redpitaya/fpga/z10_125_pro_v2/v0.94/fpga.bit.bin
    sync
    mount -o ro,remount /opt/redpitaya
    reboot
@@ -81,19 +81,19 @@ Set the **HV jumper** (right position) behind the IN1 SMA connector for the +-20
 ### Usage
 0. **Make Server starting file** on the RP:
    ```
-   cat > /root/start_photon_scanner.sh <<'EOF'
+   cat > /root/start_photon.sh <<'EOF'
    #!/bin/sh
    cd /root
-   exec python3 /root/photon_server_scanner.py --port 5555
+   exec python3 /root/photon_serverr.py --port 5555
    EOF
     ```
 Then make it executable:
 
- ```chmod +x /root/start_photon_scanner.sh ```
+ ```chmod +x /root/start_photon.sh ```
 
 0. **Start the TCP server** on the Red Pitaya:
    ```bash
-   ssh root@<RP_IP> '/root/start_photon_scanner.sh'
+   ssh root@<RP_IP> '/root/start_photon.sh'
    ```
 
 1. **Run the live monitor** on your PC:
