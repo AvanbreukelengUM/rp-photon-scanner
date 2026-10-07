@@ -1,0 +1,74 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"51a19950-d367-4d19-a256-66bb627eea3d\" name=\"Changes\" comment=\"Branch with onlu counting. One 0D and one 1D version\" />\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"GithubPullRequestsUISettings\"><![CDATA[{\r\n  \"selectedUrlAndAccountId\": {\r\n    \"url\": \"https://github.com/AvanbreukelengUM/rp-photon-counter.git\",\r\n    \"accountId\": \"570e87ad-885a-4e30-b387-ed8757ebe9d9\"\r\n  }\r\n}]]></component>\r\n  <component name=\"TaskManager\">\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Branch with onlu counting. One 0D and one 1D version\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Branch with onlu counting. One 0D and one 1D version\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision d00d627e34d79601c2c0346c8c4aeee90a62fb53)
++++ b/.idea/workspace.xml	(date 1791310458879)
+@@ -1,20 +1,58 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ChangeListManager">
+-    <list default="true" id="51a19950-d367-4d19-a256-66bb627eea3d" name="Changes" comment="Branch with onlu counting. One 0D and one 1D version" />
++    <list default="true" id="51a19950-d367-4d19-a256-66bb627eea3d" name="Changes" comment="unversioned files" />
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
+-  <component name="GithubPullRequestsUISettings"><![CDATA[{
+-  "selectedUrlAndAccountId": {
+-    "url": "https://github.com/AvanbreukelengUM/rp-photon-counter.git",
+-    "accountId": "570e87ad-885a-4e30-b387-ed8757ebe9d9"
++  <component name="Git.Settings">
++    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++  </component>
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;https://github.com/AvanbreukelengUM/rp-photon-counter.git&quot;,
++    &quot;accountId&quot;: &quot;570e87ad-885a-4e30-b387-ed8757ebe9d9&quot;
+   }
++}</component>
++  <component name="ProjectColorInfo"><![CDATA[{
++  "associatedIndex": 1,
++  "fromUser": false
+ }]]></component>
++  <component name="ProjectId" id="3KKdMLSpgoWn8P4bBB6xtjkAFz4" />
++  <component name="ProjectViewState">
++    <option name="hideEmptyMiddlePackages" value="true" />
++    <option name="showLibraryContents" value="true" />
++  </component>
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "RunOnceActivity.git.unshallow": "true",
++    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
++    "codeWithMe.voiceChat.enabledByDefault": "false",
++    "nodejs_package_manager_path": "npm"
++  }
++}]]></component>
++  <component name="SharedIndexes">
++    <attachedChunks>
++      <set>
++        <option value="bundled-python-sdk-c59985aa861c-c2ffad84badb-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-261.24374.152" />
++      </set>
++    </attachedChunks>
++  </component>
+   <component name="TaskManager">
++    <task active="true" id="Default" summary="Default task">
++      <changelist id="51a19950-d367-4d19-a256-66bb627eea3d" name="Changes" comment="Branch with onlu counting. One 0D and one 1D version" />
++      <created>1791310144543</created>
++      <option name="number" value="Default" />
++      <option name="presentableId" value="Default" />
++      <updated>1791310144543</updated>
++    </task>
+     <servers />
++  </component>
++  <component name="TypeScriptGeneratedFilesManager">
++    <option name="version" value="3" />
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Branch with onlu counting. One 0D and one 1D version" />
