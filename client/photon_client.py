@@ -1,7 +1,7 @@
 """
 Photon Counter Client Library — runs on your PC.
 
-Connects to the photon_server.py TCP server on the Red Pitaya
+Connects to the photon_server_original.py TCP server on the Red Pitaya
 and provides a clean Python API for photon counting.
 
 Usage:

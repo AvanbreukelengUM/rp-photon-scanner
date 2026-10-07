@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Photon Counter Module for Red Pitaya STEMlab 125-14
+// Photon Counter Module for Red Pitaya STEMlab 125-14 (PRO Gen 2)
 //
 // Real-time pulse detection on ADC channel with configurable threshold
 // and dead time. Provides pulse counting, gated count rate, and optional

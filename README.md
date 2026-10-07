@@ -130,10 +130,16 @@ In the following, replace the <RP_IP> address with your RedPitaya's.
    pc.close()
    ```
 
+6. Or **Use the Live Monitor** :
+   ```python
+   cd client
+   uv run python3 live_monitor.py --host <RP_IP>
+   ```
+
+
 ### Finding the Right Threshold
 
 Run a threshold scan to find the optimal discrimination point for your detector:
-
 
 ```bash
 # With detector connected and covered (dark counts only):

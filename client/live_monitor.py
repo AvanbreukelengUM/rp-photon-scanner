@@ -10,7 +10,6 @@ Usage:
 """
 
 import argparse
-import sys
 import time
 from collections import deque
 
@@ -31,10 +30,6 @@ def main():
                         help="Dead time (clock cycles, 1=8ns)")
     parser.add_argument("--gate-ms", type=int, default=100,
                         help="Gate period in milliseconds")
-    parser.add_argument("--history", type=int, default=50,
-                        help="Number of data points in plot")
-    parser.add_argument("--stream_ms", type=int, default=100,
-                        help="Plot update interval")
     args = parser.parse_args()
 
     # Connect and configure
@@ -42,13 +37,13 @@ def main():
     pc = PhotonScanner(args.host, args.port)
 
     print("Configuring...")
-    pc.reset()
     pc.set_threshold(args.threshold)
     pc.set_deadtime(args.deadtime)
     gate_cycles = int(args.gate_ms * 125_000)
     pc.set_gate_period(gate_cycles)
     pc.set_pixels(1)
     pc.enable()
+    pc.reset()
 
     print(f"  Threshold: {args.threshold} ADC units")
     print(f"  Dead time: {args.deadtime} cycles ({args.deadtime * 8} ns)")

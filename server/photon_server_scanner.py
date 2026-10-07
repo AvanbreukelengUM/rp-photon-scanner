@@ -6,14 +6,13 @@ Memory-maps the FPGA registers and exposes a simple text protocol
 over TCP port 5555 for configuration and readout.
 
 Usage:
-    python3 photon_server.py [--port 5555]
+    python3 photon_server_scanner.py [--port 5555]
 """
 
 import mmap
 import os
 import socket
 import struct
-import sys
 import threading
 import time
 import argparse
@@ -215,7 +214,6 @@ class PhotonServer:
                 # print( f"TRIG_RATE={val}")
                 return f"{val}"
 
-
             elif parts[0] == "GET_TRIG_CONFIG":
                 ctrl = self.regs.read32(REG_CTRL)
                 trig_soft = self.regs.read32(REG_SOFT_TRIG) & 1
@@ -225,7 +223,6 @@ class PhotonServer:
                 return (f"enable={ctrl & 1} trig_soft={trig_soft}"
                         f"trig_total_gates={trig_total_gates}")
 
-            # Streaming commands for triggered mode
             elif parts[0] == "TRIG_SOFT":
                 val = int(parts[1])
                 self.regs.write32(REG_SOFT_TRIG, val & 0x1)
@@ -286,7 +283,7 @@ class PhotonServer:
         srv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         srv.bind(("0.0.0.0", self.port))
         srv.listen(1)
-        print(f"Photon Counter server listening on port {self.port}")
+        print(f"Photon Counter-Scanner server listening on port {self.port}")
         print("Waiting for client...")
 
         try:

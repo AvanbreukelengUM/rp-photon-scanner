@@ -1,22 +1,26 @@
 """
 Photon Counter Client Library — runs on your PC.
 
-Connects to the photon_server.py TCP server on the Red Pitaya
+Connects to the photon_server_scanner.py TCP server on the Red Pitaya
 and provides a clean Python API for photon counting.
 
 Usage:
-    from photon_client import PhotonCounter
+    from photon_client_scanner import PhotonScanner
 
-    pc = PhotonCounter("169.254.121.34")
-    pc.set_threshold(200)
-    pc.set_deadtime(16)
-    pc.set_trig_total_gates(10)
+    pc = PhotonScanner("<RP_IP>")
+    pc.set_threshold(205) # in HV mode, 205 ADC points equals 500mV
+    pc.set_deadtime(16)  # 16 cycles = 128 ns
+    pc.set_gate_period(125_000_000)  # 1 s per gate
+    pc.set_pixels(1) # number of gates to record
     pc.enable()
+    pc.reset()
+    pc.trig_soft(True)
 
-    # Triggered gated counting example:
-    pc.soft_trig()
-    print(pc.get_trig_status())
-    print(pc.get_trig_rates())
+    while not pc.get_trig_status().trig_done:
+       pass
+    rates = pc.get_trig_rates() # counts/s per gate/pixel
+    print(f"Count rates:", rates ," cps")
+    pc.trig_soft(False)
     pc.close()
 """
 
@@ -27,11 +31,6 @@ from typing import Optional, List, Tuple
 
 from server.photon_server_scanner import MAX_TRIG_GATES
 
-# @dataclass
-# class CountRate:
-#     raw_counts: int       # counts in last gate period
-#     cps: float            # counts per second
-#     total_count: int = 0  # cumulative count
 
 @dataclass
 class TrigStatus:
@@ -77,7 +76,7 @@ class PhotonScanner:
     def set_threshold(self, value: int) -> None:
         """Set detection threshold (signed 16-bit ADC units).
 
-        For HV mode (+-20V range), 1 LSB ≈ 2.44 mV.
+        For HV mode (+-20V range), 1 ADC unit (1LSB) ≈ 2.44 mV.
         Example: threshold=200 ≈ 488 mV.
         """
         self._send(f"SET_THRESHOLD {value}")

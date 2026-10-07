@@ -6,7 +6,7 @@ Memory-maps the FPGA registers and exposes a simple text protocol
 over TCP port 5555 for configuration and readout.
 
 Usage:
-    python3 photon_server.py [--port 5555]
+    python3 photon_server_original.py [--port 5555]
 """
 
 import mmap
